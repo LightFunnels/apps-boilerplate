@@ -1,0 +1,37 @@
+{
+  "name": "LfBoilerplate",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:LightFunnels/lfapp-google-sheets.git",
+  "author": "Bardouni Naoufal <bardouni.naoufal@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "watch": "./node_modules/.bin/cross-env NODE_ENV=development webpack-dev-server --env.NODE_ENV=development -r dotenv/config --color --hide-modules --progress --watch",
+    "prod": "./node_modules/.bin/webpack --color --hide-modules",
+    "relay": "relay-compiler"
+  },
+  "private": true,
+  "dependencies": {
+    "autoprefixer": "^8.5.0",
+    "babel-plugin-relay": "^12.0.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^10.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "postcss-loader": "^2.1.5",
+    "postcss-scss": "^1.0.5",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-relay": "^12.0.0",
+    "react-router-dom": "^5.1.2",
+    "relay-compiler": "^12.0.0",
+    "relay-compiler-language-typescript": "^14.2.1",
+    "relay-config": "^12.0.0",
+    "relay-runtime": "^12.0.0",
+    "store": "^2.0.12",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.10.1"
+  },
+  "devDependencies": {}
+}

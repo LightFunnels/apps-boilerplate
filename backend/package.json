@@ -1,0 +1,39 @@
+{
+  "name": "google-sheets",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:LightFunnels/lfapp-google-sheets.git",
+  "author": "Bardouni Naoufal <bardouni.naoufal@gmail.com>",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "deploy": "sam build && sh ./deploy.sh",
+    "start": "./node_modules/.bin/nodemon -r dotenv/config ./dev/index.js",
+    "sync": "knex migrate:rollback --all && knex migrate:latest",
+    "seed": "knex seed:run",
+    "db": "yarn sync && yarn seed",
+    "tsc": "tsc"
+  },
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.84",
+    "@types/node": "^14.14.37",
+    "dataloader": "^2.0.0",
+    "graphql": "^15.5.0",
+    "graphql-relay": "^0.9.0",
+    "joi": "^17.4.2",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.95.4",
+    "mysql": "^2.18.1",
+    "randomatic": "^3.1.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.14",
+    "typescript": "^4.2.4"
+  }
+}

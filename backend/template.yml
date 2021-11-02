@@ -1,0 +1,353 @@
+Parameters:
+  DbHost:
+    Type: String
+  DbUser:
+    Type: String
+  DbName:
+    Type: String
+  DbPass:
+    Type: String
+  AppSecret:
+    Type: String
+  LightfunnelsAppKey:
+    Type: String
+  LightfunnelsAppSecret:
+    Type: String
+  AppURL:
+    Type: String
+  LightfunnelsUrl:
+    Type: String
+  LightfunnelsFrontUrl:
+    Type: String
+  ShopifyClientID:
+    Type: String
+  ShopifyClientSecret:
+    Type: String
+  NodeEnv:
+    Type: String
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Resources:
+
+  Auth:
+    Type: AWS::ApiGatewayV2::Authorizer
+    Properties: 
+      Name: "AuthLambda"
+      ApiId: !Ref ApiGateway
+      AuthorizerType: "REQUEST"
+      EnableSimpleResponses: true
+      AuthorizerPayloadFormatVersion: "2.0"
+      AuthorizerUri: !Join 
+        - ''
+        - - 'arn:'
+          - !Ref 'AWS::Partition'
+          - ':apigateway:'
+          - !Ref 'AWS::Region'
+          - ':lambda:path/2015-03-31/functions/'
+          - !GetAtt AuthorizerLambda.Arn
+          - /invocations
+
+      IdentitySource: 
+        - "$request.header.Authorization"
+  ApiGateway:
+    Type: AWS::ApiGatewayV2::Api
+    Properties: 
+      Name: !Join ["", [!Ref "AWS::StackName", ApiGateway]]
+      ProtocolType: "HTTP"
+      CorsConfiguration:
+        AllowHeaders: 
+          - "*"
+        AllowMethods: 
+          - "*"
+        AllowOrigins: 
+          - "*"
+        ExposeHeaders: 
+          - "*"
+        MaxAge: 999999
+  ApiStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties: 
+      AutoDeploy: true
+      ApiId: !Ref ApiGateway
+      StageName: "$default"
+      AccessLogSettings:
+        DestinationArn: !GetAtt ApiGatewayLogGroup.Arn
+        Format: '{"context.accountId":"$context.accountId", "context.apiId":"$context.apiId", "context.awsEndpointRequestId":"$context.awsEndpointRequestId", "context.dataProcessed":"$context.dataProcessed", "context.domainName":"$context.domainName", "context.domainPrefix":"$context.domainPrefix", "context.error.message":"$context.error.message", "context.error.messageString":"$context.error.messageString", "context.error.responseType":"$context.error.responseType", "context.extendedRequestId":"$context.extendedRequestId", "context.httpMethod":"$context.httpMethod", "context.identity.sourceIp":"$context.identity.sourceIp", "context.identity.userAgent":"$context.identity.userAgent", "context.path":"$context.path", "context.protocol":"$context.protocol", "context.requestId":"$context.requestId", "context.requestTime":"$context.requestTime", "context.requestTimeEpoch":"$context.requestTimeEpoch", "context.routeKey":"$context.routeKey", "context.stage":"$context.stage", "context.integrationErrorMessage":"$context.integrationErrorMessage", "context.integrationLatency":"$context.integrationLatency", "context.integrationStatus":"$context.integrationStatus", "context.responseLatency":"$context.responseLatency", "context.responseLength":"$context.responseLength", "context.status":"$context.status"}'
+
+  ApiGatewayLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties: 
+      LogGroupName: !Join ["", [!Ref "AWS::StackName", "ApiGatewayLogGroup"]]
+
+  IamRoleLambdaExecution:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+                - apigateway.amazonaws.com
+                - events.amazonaws.com
+                - sqs.amazonaws.com
+                - logs.amazonaws.com
+                - !Sub states.${AWS::Region}.amazonaws.com
+                - !Sub "logs.${AWS::Region}.amazonaws.com"
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: "LambdaLog"
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                Resource:
+                  - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:*
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource:
+                  - !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:*
+              - Effect: Allow
+                Action:
+                  - 'ec2:DeleteNetworkInterface'
+                  - 'ec2:DescribeNetworkInterfaces'
+                  - 'ec2:CreateNetworkInterface'
+                Resource:
+                  - "*"
+        - PolicyName: "ES"
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "es:*"
+                Resource: "*"
+        - PolicyName: StatesExecutionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "lambda:InvokeFunction"
+                Resource: "*"
+        - PolicyName: SnsPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "sns:*"
+                Resource: "*"
+        - PolicyName: CloudFrontPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "cloudfront:*"
+                Resource: "*"
+      Path: /
+
+  AuthorizerLambdaPermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      FunctionName: !Ref AuthorizerLambda
+      Action: 'lambda:InvokeFunction'
+      Principal: apigateway.amazonaws.com
+  AuthorizerLambda:
+    Type: 'AWS::Serverless::Function'
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: bundle/src/authorizer/index.handler
+      Runtime: nodejs12.x
+      Timeout: 120
+      PackageType: Zip
+      CodeUri: ./
+      Role: !GetAtt IamRoleLambdaExecution.Arn
+      Layers:
+        - !Ref Layer
+      Environment:
+        Variables:
+          DbHost: !Ref DbHost
+          NodeEnv: "production"
+          DbUser: !Ref DbUser
+          DbName: !Ref DbName
+          DbPass: !Ref DbPass
+          AppSecret: !Ref AppSecret
+          LightfunnelsAppKey: !Ref LightfunnelsAppKey
+          LightfunnelsAppSecret: !Ref LightfunnelsAppSecret
+          LightfunnelsFrontUrl: !Ref LightfunnelsFrontUrl
+          LightfunnelsUrl: !Ref LightfunnelsUrl
+          ShopifyClientID: !Ref ShopifyClientID
+          ShopifyClientSecret: !Ref ShopifyClientSecret
+          AppURL: !Join ['', [!GetAtt ApiGateway.ApiEndpoint, '/']]
+  
+  ApiLambdaPermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      FunctionName: !Ref ApiLambda
+      Action: 'lambda:InvokeFunction'
+      Principal: apigateway.amazonaws.com
+  ApiLambda:
+    Type: 'AWS::Serverless::Function'
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: bundle/src/api/index.handler
+      Runtime: nodejs12.x
+      Timeout: 120
+      PackageType: Zip
+      CodeUri: ./
+      Role: !GetAtt IamRoleLambdaExecution.Arn
+      Layers:
+        - !Ref Layer
+      Environment:
+        Variables:
+          DbHost: !Ref DbHost
+          NodeEnv: "production"
+          DbUser: !Ref DbUser
+          DbName: !Ref DbName
+          DbPass: !Ref DbPass
+          AppSecret: !Ref AppSecret
+          LightfunnelsAppKey: !Ref LightfunnelsAppKey
+          LightfunnelsAppSecret: !Ref LightfunnelsAppSecret
+          LightfunnelsFrontUrl: !Ref LightfunnelsFrontUrl
+          LightfunnelsUrl: !Ref LightfunnelsUrl
+          ShopifyClientID: !Ref ShopifyClientID
+          ShopifyClientSecret: !Ref ShopifyClientSecret
+          AppURL: !Join ['', [!GetAtt ApiGateway.ApiEndpoint, '/']]
+  ApiIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      PayloadFormatVersion: "2.0"
+      ApiId: !Ref ApiGateway
+      IntegrationType: "AWS_PROXY"
+      IntegrationMethod: POST
+      ConnectionType: INTERNET
+      IntegrationUri: !Join ['', ['arn:aws:lambda:', !Ref "AWS::Region" ,':035974291112:function:', !Ref ApiLambda ]]
+  ApiRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApiGateway
+      RouteKey: 'POST /api'
+      AuthorizationType: "CUSTOM"
+      AuthorizerId: !Ref Auth
+      Target: !Join ['/', ['integrations', !Ref ApiIntegration]]
+
+  WebhooksLambdaPermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      FunctionName: !Ref WebhooksLambda
+      Action: 'lambda:InvokeFunction'
+      Principal: apigateway.amazonaws.com
+  WebhooksLambda:
+    Type: 'AWS::Serverless::Function'
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: bundle/src/webhooks/index.handler
+      Runtime: nodejs12.x
+      Timeout: 120
+      PackageType: Zip
+      CodeUri: ./
+      Role: !GetAtt IamRoleLambdaExecution.Arn
+      Layers:
+        - !Ref Layer
+      Environment:
+        Variables:
+          DbHost: !Ref DbHost
+          NodeEnv: "production"
+          DbUser: !Ref DbUser
+          DbName: !Ref DbName
+          DbPass: !Ref DbPass
+          AppSecret: !Ref AppSecret
+          LightfunnelsAppKey: !Ref LightfunnelsAppKey
+          LightfunnelsAppSecret: !Ref LightfunnelsAppSecret
+          LightfunnelsFrontUrl: !Ref LightfunnelsFrontUrl
+          LightfunnelsUrl: !Ref LightfunnelsUrl
+          ShopifyClientID: !Ref ShopifyClientID
+          ShopifyClientSecret: !Ref ShopifyClientSecret
+          AppURL: !Join ['', [!GetAtt ApiGateway.ApiEndpoint, '/']]
+  WebhooksIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      PayloadFormatVersion: "2.0"
+      ApiId: !Ref ApiGateway
+      IntegrationType: "AWS_PROXY"
+      IntegrationMethod: POST
+      ConnectionType: INTERNET
+      IntegrationUri: !Join ['', ['arn:aws:lambda:', !Ref "AWS::Region" ,':035974291112:function:', !Ref WebhooksLambda ]]
+  WebhooksRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApiGateway
+      RouteKey: 'POST /webhooks/{proxy+}'
+      Target: !Join ['/', ['integrations', !Ref WebhooksIntegration]]
+
+  LightfunnelsLambdaPermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      FunctionName: !Ref LightfunnelsLambda
+      Action: 'lambda:InvokeFunction'
+      Principal: apigateway.amazonaws.com
+  LightfunnelsLambda:
+    Type: 'AWS::Serverless::Function'
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: bundle/src/lightfunnels/index.handler
+      Runtime: nodejs12.x
+      Timeout: 120
+      PackageType: Zip
+      CodeUri: ./
+      Role: !GetAtt IamRoleLambdaExecution.Arn
+      Layers:
+        - !Ref Layer
+      Environment:
+        Variables:
+          DbHost: !Ref DbHost
+          NodeEnv: "production"
+          DbUser: !Ref DbUser
+          DbName: !Ref DbName
+          DbPass: !Ref DbPass
+          AppSecret: !Ref AppSecret
+          LightfunnelsAppKey: !Ref LightfunnelsAppKey
+          LightfunnelsAppSecret: !Ref LightfunnelsAppSecret
+          LightfunnelsFrontUrl: !Ref LightfunnelsFrontUrl
+          LightfunnelsUrl: !Ref LightfunnelsUrl
+          ShopifyClientID: !Ref ShopifyClientID
+          ShopifyClientSecret: !Ref ShopifyClientSecret
+          AppURL: !Join ['', [!GetAtt ApiGateway.ApiEndpoint, '/']]
+  LightfunnelsIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      PayloadFormatVersion: "2.0"
+      ApiId: !Ref ApiGateway
+      IntegrationType: "AWS_PROXY"
+      IntegrationMethod: POST
+      ConnectionType: INTERNET
+      IntegrationUri: !Join ['', ['arn:aws:lambda:', !Ref "AWS::Region" ,':035974291112:function:', !Ref LightfunnelsLambda ]]
+  LightfunnelsRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApiGateway
+      RouteKey: 'POST /lightfunnels/{proxy+}'
+      Target: !Join ['/', ['integrations', !Ref LightfunnelsIntegration]]
+
+  Layer:
+    Type: AWS::Serverless::LayerVersion
+    Metadata:
+      BuildArchitecture: arm64
+      BuildMethod: makefile
+    Properties:
+      ContentUri: ./
+      CompatibleRuntimes:
+        - nodejs12.x

@@ -1,0 +1,14 @@
+sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --parameter-overrides \
+	NodeEnv=#\
+	AppURL=#\
+	AppSecret=bzaJEVXhk5K3kagFD3uF2RntvYHjX4Y36nG8GgFkHkWD\
+	LightfunnelsAppKey=vx9V82wBTPVy9AhztMXVL5VCneGJRgz3trP5X9EbwDWyKZWm\
+	LightfunnelsAppSecret=kuDyMTxmLh5y2SsSs4yWbAc4mcNuh3BL7HwJAvKqG42f4GLB\
+	LightfunnelsUrl=https://api.esypack.com/\
+	LightfunnelsFrontUrl=https://apps.lightfunnels-front-h5y7.pages.dev/\
+	DbHost=\
+	DbUser=\
+	DbName=\
+	DbPass=\
+	ShopifyClientID=\
+	ShopifyClientSecret=

@@ -1,0 +1,102 @@
+type Query {
+  records(offset: Int): [Record!]!
+  connections: [Connection!]!
+  account: Account!
+  funnels(
+    query: String!
+
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+  ): FunnelConnection!
+  funnelsList(ids: [Int!]!): [Funnel]!
+}
+
+type Record {
+  payment_id: Int!
+  order_id: Int!
+  shopify_order_id: String!
+  created_at: String!
+}
+
+type Connection {
+  """The ID of an object"""
+  id: ID!
+  _id: Int!
+  shop_id: Int!
+  shop: Shop!
+  funnel_id: Int!
+  funnel: Funnel
+}
+
+type Shop {
+  """The ID of an object"""
+  id: ID!
+  _id: Int!
+  shop: String!
+}
+
+type Funnel implements Node {
+  _id: Int!
+  id: ID!
+  name: String!
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+type Account implements Node {
+  """The ID of an object"""
+  id: ID!
+  shops: [Shop!]!
+}
+
+"""A connection to a list of items."""
+type FunnelConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [FunnelEdge]
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""An edge in a connection."""
+type FunnelEdge {
+  """The item at the end of the edge"""
+  node: Funnel
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type Mutation {
+  connectShopifyUrl(shop: String!, redirectUri: String!): String!
+  connectShopifyResponse(query: String!): Account!
+  createConnection(node: ConnectionInput!): Connection!
+  deleteConnection(id: Int!): ID
+}
+
+input ConnectionInput {
+  shop_id: Int!
+  funnel_id: Int!
+}

@@ -1,0 +1,142 @@
+@import 'variables';
+
+.appContainer {
+	padding: 24px;
+	.app {
+		max-width: 620px;
+		width: 100%;
+		margin: auto;
+
+		display: grid;
+		gap: 24px;
+	}
+
+	.table {
+		display: table;
+    min-width: 100%;
+    position: relative;
+    .head {
+    	display: table-header-group;
+    	.th {
+    		padding-top: 18px;
+    		padding-bottom: 18px;
+		    font: 500 15px/18px $font-6;
+    		color: $grey-27;
+    	}
+    }
+    .row {
+    	display: table-row;
+    	> * {
+    		padding: 0 9px;
+		    display: table-cell;
+		    vertical-align: middle;
+    	}
+    }
+    .td {
+    	padding-top: 12px;
+    	padding-bottom: 12px;
+	    font: 400 14px/17px $font-6;
+    	color: $grey-33;
+    }
+	}
+
+	.delete {
+		font: 500 14px/1 $font-6;
+		color: $error-red-2;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: end;
+		.icon-bin {
+			margin-right: 8px;
+			font-size: 20px;
+		}
+	}
+
+	.emptyText{
+		font: 400 14px/17px $font-6;
+		color: $grey-33;
+		text-align: center;
+		padding: 12px 0;
+	}
+
+	.connectButton{
+    justify-self: end;
+	}
+
+	.listsGrid{
+		display: flex;
+	  flex-flow: wrap;
+	  .list{
+	  	padding: 6px 6px;
+	    display: flex;
+	    align-items: center;
+	    border-radius: 6px;
+	    border: 1px solid $border-color-tr;
+	    display: flex;
+	    align-items: center;
+	    margin: 0 4px 4px 0;
+	  	height: 30px;
+	  	cursor: pointer;
+	  	&.active{
+	  		border-color: $blue-border-selected-step;
+    		box-shadow: 0 0 0 1px $blue-border-selected-step;
+	  	}
+	    .icon-cancel-music{
+		    color: $grey-35;
+		    font-size: 20px;
+		    transition: .1s ease-out;
+	      color: $grey-35;
+	      cursor: pointer;
+	      margin-left: 8px;
+	      &:hover{
+	        color: $grey-24;
+	      }
+		  }
+	  }
+	}
+
+	.form{
+		display: grid;
+		gap: 14px;
+		.createButton{
+			justify-self: end;
+		}
+	}
+}
+
+.home{
+	padding: 80px 0;
+	text-align: center;
+	height: 100vh;
+	width: 100%;
+
+	div {
+		font: 500 34px/1.5 $font-6;
+		color: $dark-1;
+		margin-bottom: 18px;
+	}
+	a {
+		font: 400 16px/1 $font-6;
+	}
+}
+
+.redirects{
+  padding: 80px 0;
+	text-align: center;
+	height: 100vh;
+	overflow: auto;
+	max-width: 480px;
+	width: 100%;
+	margin: auto;
+}
+
+.modalConnect{
+	width: 480px;
+	max-width: 100%;
+	.text{
+		font: 400 unquote('14px/1.5') $font-6;
+		color: $grey-33;
+		margin-bottom: 14px;
+	}
+}
