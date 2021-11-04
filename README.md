@@ -7,4 +7,5 @@ you will be building the ui yourself, you can use one of these:
 - you must use relayjs https://relay.dev/
 - you can check the /backend/src/lightfunnels/index.js for a demo to connect to lightfunnels
 - we use aws sam to dpeloy the project, you can check /backend/template.yml for more informations on how each function is attached to the apigateway, but in development 
-we have a mocking server /backend/dev/index.js
+- we have a mocking server /backend/dev/index.js to reflect the ApiGateway environment
+- check deploy.sh.example for env variables
