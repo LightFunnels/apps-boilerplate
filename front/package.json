@@ -12,6 +12,13 @@
   },
   "private": true,
   "dependencies": {
+    "sass-loader": "^8.0.2",
+    "graphql": "^15.5.1",
+    "hotkeys-js": "^3.8.1",
+    "react-currency-input-field": "^2.3.3",
+    "popper.js": "^1.14.7",
+    "file-loader": "^2.0.0",
+    "node-sass": "^4.13.0",
     "autoprefixer": "^8.5.0",
     "babel-plugin-relay": "^12.0.0",
     "cross-env": "^7.0.3",
