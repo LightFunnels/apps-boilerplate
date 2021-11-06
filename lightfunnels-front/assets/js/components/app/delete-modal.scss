@@ -1,0 +1,10 @@
+@import "variables";
+
+:local(.modalDelteBody){
+	width: 480px;
+	max-width: 100%;
+	.body, .body * {
+		font: 400 unquote('14px/1.5') $font-6;
+		color: $grey-33;
+	}
+}

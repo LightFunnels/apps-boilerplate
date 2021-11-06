@@ -1,11 +1,11 @@
 sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --parameter-overrides \
-	NodeEnv=#\
-	AppURL=#\
-	AppSecret=bzaJEVXhk5K3kagFD3uF2RntvYHjX4Y36nG8GgFkHkWD\
-	LightfunnelsAppKey=vx9V82wBTPVy9AhztMXVL5VCneGJRgz3trP5X9EbwDWyKZWm\
-	LightfunnelsAppSecret=kuDyMTxmLh5y2SsSs4yWbAc4mcNuh3BL7HwJAvKqG42f4GLB\
-	LightfunnelsUrl=https://api.esypack.com/\
-	LightfunnelsFrontUrl=https://apps.lightfunnels-front-h5y7.pages.dev/\
+	NodeEnv=development\
+	AppURL=http://localhost:9001/\
+	AppSecret=random-long-password\
+	LightfunnelsAppKey=random-secret-requested-from-lightfunnels-team\
+	LightfunnelsAppSecret=random-secret-requested-from-lightfunnels-team\
+	LightfunnelsUrl=https://api.lightfunnels.com/\
+	LightfunnelsFrontUrl=https://app.lightfunnels.com/\
 	DbHost=\
 	DbUser=\
 	DbName=\

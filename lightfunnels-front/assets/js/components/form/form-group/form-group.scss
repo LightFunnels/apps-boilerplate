@@ -1,0 +1,7 @@
+@import "variables";
+
+:local(.hint){
+	margin-top: 10px;
+	font: 400 unquote("14px/1.5") $font-6;
+	color: $grey-48;
+}

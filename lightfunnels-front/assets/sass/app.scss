@@ -1,0 +1,238 @@
+@import "~normalize.css/normalize.css";
+@import "./variables";
+@charset "UTF-8";
+/* 
+assets/sass/app.scss
+*/
+$icomoon-font-path: "../icons/fonts";
+
+@import "../icons/style.scss";
+
+@keyframes spinning {
+  from {
+    transform: rotateZ(0);
+  };
+  to {
+    transform: rotateZ(360deg);
+  };
+}
+
+html{
+  overflow: hidden;
+}
+
+// @font-face {
+//   font-family: "RobotoMono";
+//   src: url("../fonts/RobotoMono/RobotoMono-Regular.ttf");
+//   font-weight: 400;
+// }
+
+@font-face {
+  font-family: "Circular";
+  src: url("../fonts/Circular/CircularStd-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Proxima";
+  src: url("../fonts/Proxima/ProximaNova-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Proxima";
+  src: url("../fonts/Proxima/Proxima-Nova-Sbold.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Proxima";
+  src: url("../fonts/Proxima/Proxima-Nova-Black.ttf");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("../fonts/metropolis/Metropolis-SemiBold.otf");
+  font-weight: 600;
+}
+
+:root, body, #app{
+  height: 100%;
+}
+#app{
+  overflow: auto;
+}
+#popups{
+  position: relative;
+  z-index: 10;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+* {
+	box-sizing: border-box;
+	// font-style: normal;
+	// font-stretch: normal;
+	letter-spacing: normal;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+}
+
+/* fonts */
+body {
+  font-family: $font-6;
+  font-size: 14px;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+$sizes: 2,4,6,8,9,10,18,14,16,20,22,24,30;
+@each $size in $sizes {
+  /* margins */
+  .mt-#{$size} {
+    margin-top: #{$size}px;
+  }
+  .mb-#{$size} {
+    margin-bottom: #{$size}px;
+  }
+  .ml-#{$size} {
+    margin-left: #{$size}px;
+  }
+  .mr-#{$size} {
+    margin-right: #{$size}px;
+  }
+  .mv-#{$size} {
+    margin-top: #{$size}px;
+    margin-bottom: #{$size}px;
+  }
+  .mh-#{$size} {
+    margin-left: #{$size}px;
+    margin-right: #{$size}px;
+  }
+  .m-#{$size} {
+    margin: #{$size}px;
+  }
+  /* paddings */
+  .pt-#{$size} {
+    padding-top: #{$size}px;
+  }
+  .pb-#{$size} {
+    padding-bottom: #{$size}px;
+  }
+  .pl-#{$size} {
+    padding-left: #{$size}px;
+  }
+  .pr-#{$size} {
+    padding-right: #{$size}px;
+  }
+  .pv-#{$size} {
+    padding-top: #{$size}px;
+    padding-bottom: #{$size}px;
+  }
+  .ph-#{$size} {
+    padding-left: #{$size}px;
+    padding-right: #{$size}px;
+  }
+  .p-#{$size} {
+    padding: #{$size}px;
+  }
+}
+
+$fsizes: 11,13,14,20,40,18;
+@each $size in $fsizes {
+  .f-#{$size} {
+    font-size: #{$size}px;
+  }
+}
+$lhsizes: 17, 16;
+@each $size in $lhsizes {
+  .lh-#{$size} {
+    line-height: #{$size}px;
+  }
+}
+
+$weights: 400,500,600;
+@each $size in $weights {
+  .fw-#{$size} {
+    font-weight: $size;
+  }
+}
+
+/*  don't uncomment this */
+// /*width*/
+// *::-webkit-scrollbar {
+//   width: 14px;
+//   background: transparent;
+// }
+
+// /*thumb*/
+// *::-webkit-scrollbar-thumb {
+//   background: $grey-31;
+//   border: 4px solid $white;
+//   border-radius: 8px;
+// }
+
+// /*thumb hover*/
+// *::-webkit-scrollbar-thumb:hover {
+//   background-color: $grey-20;
+// }
+
+.color-blue-3{
+  color: $blue-3;
+}
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.spinning {
+  color: transparent;
+  pointer-events: none;
+  position: relative;
+  &:not(.dark-spinner){
+    &:after{
+      border-color: $white;
+    }
+  }
+  &.dark-spinner{
+    &:after{
+      border-color: $dark-1;
+    }
+    &:before{
+      content: "";
+      position: absolute;
+      @include fit;
+      background: rgba($white, .8);
+    }
+  }
+  &:after {
+    $border-size: 2px;
+    $side-length: 14px;
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: $side-length;
+    width: $side-length;
+    border: $border-size solid;
+    border-right-color: transparent !important;
+    border-top-color: transparent !important;
+    border-radius: 50%;
+    animation: 500ms spinning infinite linear;
+    margin: {
+      left: (-$side-length / 2) - $border-size;
+      top: (-$side-length / 2) - $border-size;
+    }
+  }
+}
+
+#modals{
+  position: relative;
+  z-index: 6;
+}

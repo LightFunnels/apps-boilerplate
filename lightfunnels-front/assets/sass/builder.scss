@@ -1,0 +1,194 @@
+@import "../../builder/sass/app.scss";
+@import "variables";
+/* 
+assets/sass/builder.scss
+*/
+$va: -10px;
+$vva: -15px;
+$outline-width: 2px;
+
+[contenteditable="true"]{
+	outline: none !important;
+}
+
+@font-face {
+  font-family: "Proxima";
+  src: url("../fonts/Proxima/ProximaNova-Regular.ttf");
+  font-weight: 400;
+}
+
+$blocks: "Section", "Col", "Row", "Container", "Repeater", "Sticky", "Masonry";
+
+[data-type="Section"] {
+  outline-offset: -1px;
+}
+
+@each $block in $blocks {
+	.outline:not(.hide-outline){
+	  [data-type="#{$block}"] {
+	  	outline-offset: -1px;
+	    outline: 1px dashed grey;
+	  }
+	}
+	[data-type="#{$block}"] {
+		&.empty{
+			min-height: 40px;
+			min-width: 40px;
+		}
+	}
+}
+
+.frame-content{
+	height: 100%;
+}
+
+[data-type="Repeater"]{
+	padding: 10px 0;
+}
+
+.addElementsPlaceholderWrapper{
+	padding: 15px;
+	text-align: center;
+	cursor: pointer;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	top: 0;
+  position: fixed;
+	display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 18px $font-6;
+  color: $grey-33;
+  .wrapper{
+  	max-width: 100%;
+  }
+  img{
+  	display: block;
+  	width: 228px;
+  	margin: 0 auto 18px;
+  	max-width: 100%;
+  }
+}
+.addElementsPlaceholderWrapper2{
+	position: relative;
+	z-index: 1;
+	.area{
+		position: absolute;
+		top: 0;
+		bottom: -8px;
+		left: 0;
+		width: 100%;
+	}
+	.visual{
+		z-index: 1;
+		position: absolute;
+		left: 0;
+		top: .5px;
+		height: 2px;
+		width: 100%;
+		background: $blue-border-selected-step;
+		&:not(.active){
+			display: none;
+		}
+	}
+	.i-add{
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		display: table;
+		background: inherit;
+		color: $white;
+		&:before{
+			cursor: pointer;
+			content: "+";
+			font-size: 14px;
+			font-style: normal;
+			display: table-cell;
+			text-align: center;
+			vertical-align: middle;
+		}
+	}
+}
+
+.htmlElement {
+	border: 2px solid $blue-border-selected-step;
+	background: rgba($blue-border-selected-step, .1);
+	font: 400 15px/18px $font-6;
+	color: $blue-3;
+	padding: 15px;
+	text-align: center;
+	.icon {
+		display: inline-block;
+		vertical-align: middle;
+		margin-right: 9.9px;
+	}
+}
+
+.animatedPlaceholder {
+	display: none;
+	position: absolute;
+	transition: .15s;
+	background: rgba(#6DBAFF, .7);
+	pointer-events: none;
+	z-index: 100;
+}
+
+.editPathBox{
+	position: absolute;
+	pointer-events: none;
+	border: 2px solid;
+	z-index: 100;
+	&.blue{
+		border-color: $accent-blue;
+		&.bound{
+			border-color: $green-3;
+		}
+	}
+	&.orange{
+		border-color: $orange-1;
+	}
+	&.red{
+		border-color: red;
+	}
+	&.textEditing{
+		border-color: transparent;
+		outline: 4px solid rgba($blue-7, .2);
+	}
+}
+
+.resizeDot{
+	z-index: 101;
+	width: 10px;
+	height: 10px;
+	border: 1px solid;
+	border-radius: 50%;
+	position: absolute;
+	background: white;
+	position:absolute;
+	&[data-type="bottom"]{
+		cursor: row-resize;
+	}
+	&[data-type="right"]{
+		cursor: col-resize;
+	}
+	&[data-type="bottom-right"]{
+		cursor: nwse-resize;
+	}
+}
+
+.wys{
+	&:not([contenteditable="true"]){
+		a{
+			pointer-events: none;
+		}
+	}
+}
+
+.nonBoundText{
+	color: $grey-35;
+}

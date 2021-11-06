@@ -1,0 +1,13 @@
+@import 'variables';
+
+:local(.emptyState){
+	padding: 20px;
+	.text{
+		text-align: center;
+		font: 400 unquote('14px/17px') $font-6;
+		color: $grey-5;
+	}
+	.button {
+		margin-top: 18px;
+	}
+}

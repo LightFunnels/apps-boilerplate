@@ -1,0 +1,100 @@
+@import 'variables';
+
+:local(.alertStripe){
+  padding: 14px;
+  border-radius: 4px;
+  display: flex;
+  align-items: flex-start;
+  background-color: $white;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  text-align: left;
+
+  .icon-container{
+    margin-right: 10px;
+    color: inherit;
+    i{
+      font-size: 22px;
+    }
+  }
+
+  .icon-cancel-music{
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 14px;
+    color: $grey-1;
+  }
+
+  .errTitle{
+    font: 500 unquote('14px/1') $font-6;
+    margin-bottom: 8px;
+    color: inherit;
+    color: $dark-1;
+  }
+
+  .errText{
+    font: 400 unquote('13px/1.4') $font-6;
+    color: $grey-24;
+    overflow-wrap: anywhere;
+  }
+
+  .bottomActionsContainer{
+    margin-top: 10px;
+  }
+
+  &:not(.theme2){
+    border-left: 4px solid transparent;
+    .text-container{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    &.info{
+      background-image: linear-gradient($opacity-blue-1, $opacity-blue-1);
+      *:not(.title):not(.errText):not(.icon-cancel-music):not(.only){
+        color: $blue-border-selected-step;
+      }
+      border-color: $blue-border-selected-step;
+    }
+    
+    &.success{
+      background-image: linear-gradient($opacity-green-1, $opacity-green-1);
+      *:not(.title):not(.errText):not(.icon-cancel-music):not(.only){
+        color: $green-3;
+      }
+      border-color: $green-3;
+    }
+
+    &.warning{
+      background-image: linear-gradient($opacity-orange-1, $opacity-orange-1);
+      *:not(.title):not(.errText):not(.icon-cancel-music){
+        color: $accent-orange;
+      }
+      border-color: $accent-orange;
+    }
+
+    &.error{
+      background-image: linear-gradient($opacity--red--1, $opacity--red--1);
+      *:not(.title):not(.errText):not(.icon-cancel-music){
+        color: $accent-red;
+      }
+      border-color: $accent-red;
+    }
+  }
+
+  &.theme2{
+    border: 1px solid;
+    &.error{
+      background-image: linear-gradient($opacity-accent-red-1, $opacity-accent-red-1);
+      color: $accent-red;
+    }
+  }
+  .iconContentContainer{
+    display: flex;
+  }
+  .stripeActionsContainer{
+    align-self: center;
+    white-space: nowrap;
+    margin-left: 18px;
+  }
+}

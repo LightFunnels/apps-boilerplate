@@ -1,0 +1,23 @@
+// Not in use anymore
+
+// :local(.fileInput) {
+//   composes: button from './button/button.scss';
+//   background: $grey-4;
+//   color: $accent-blue;
+//   font: 400 14px/17px $font-6;
+//   letter-spacing: 0.02em;
+//   .icon-attach {
+//     margin-right: 12px;
+//     font-size: 14px;
+//     vertical-align: middle;
+//   }
+//   padding: 10px 11px;
+//   position: relative;
+
+//   input.input {
+//     cursor: pointer;
+//     position: absolute;
+//     @include fit;
+//     opacity: 0;
+//   }
+// }

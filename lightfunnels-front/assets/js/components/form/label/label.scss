@@ -1,0 +1,13 @@
+@import "variables";
+
+// LABELS
+:local(.label) {
+  font: 400 14px/17px $font-6;
+  letter-spacing: 0.02em;
+  color: $grey-24;
+  margin-bottom: 6px;
+  display: block;
+  &.light {
+    font-weight: 400;
+  }
+}

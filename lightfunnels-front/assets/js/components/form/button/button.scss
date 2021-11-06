@@ -1,0 +1,135 @@
+@import "variables";
+
+
+:local(.button) {
+  border-radius: $button-border-radius;
+  color: $grey-24;
+  background: transparent;
+  padding: 0 18px;
+  height: 36px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: 500 unquote('15px') $font-6;
+  box-shadow: none !important;
+  outline: none !important;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  &:hover{
+    background: $grey-36;
+  }
+  &:active{
+    background: $grey-37;
+  }
+  &.onCard{
+    &:hover{
+      background: $grey-19;
+    }
+    &:active{
+      background: $grey-36;
+    }
+  }
+  /*
+  ****** warning ****
+  * talk to naoufal about this comment
+  */
+  // &:not(:last-child){
+  //   margin-right: $row-spacing2;
+  // }
+  & + :local(.button) {
+    // margin-right: $row-spacing2;
+    margin-left: $row-spacing2;
+  }
+  /*
+  ****** end warning ****
+  */
+  &.primary {
+    background: $blue-border-selected-step;
+    color: $white;
+    border: none;
+    &:hover{
+      background: $blue-9;
+    }
+    &:active{
+      background: $blue-7;
+    }
+  }
+
+  &.spinning{
+    &, *{
+      color: transparent !important;
+    }
+  }
+  
+  &.tertiary{
+    background: $opacity-blue-1;
+    color: $blue-7;
+    border: none;
+    &:hover{
+      background: $opacity-blue-3;
+    }
+    &:active{
+      background: $opacity-blue-4;
+      color: $blue-7;
+    }
+  }
+  
+  &.danger{
+    color: $white;
+    background: $accent-red;
+    border: none;
+    &:hover{
+      background: $error-red-3;
+    }
+    &:active{
+      background: $error-red-4;
+    }
+    &.highlighted{
+      color: $danger-red;
+      background: rgba($danger-red, 0.2);
+      padding:{
+        left: 22px;
+        right: 22px;
+      };
+    }
+  }
+  &.centered {
+    display: block;
+    margin:{
+      left:auto;
+      right:auto;
+    };
+  }
+
+  &[disabled]{
+    opacity: .3;
+    pointer-events: none;
+  }
+
+  &.block {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+  }
+
+  &.medium {
+    font-size: 13px;
+    border-radius: 4px;
+    height: 32px;
+    min-height: 32px;
+  }
+  &.link {
+    background: transparent;
+    color: $blue-7;
+    border: none;
+  }
+
+  border: 1px solid $grey-20;
+
+  i{
+    font-size: 20px;
+    margin-right: 10px;
+  }
+}

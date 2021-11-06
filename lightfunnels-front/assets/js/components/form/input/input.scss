@@ -1,0 +1,186 @@
+@import '_variables';
+
+// TEXT INPUT
+:local(.textInputWrapper) {
+
+  .adjustHandler {
+    position: absolute;
+    right: 8px;
+    cursor: pointer;
+    top: 0;
+    font-size: 18px;
+    color: $dark-1;
+    display: flex;
+    flex-flow: column;
+    .adjustNumberInput {
+      vertical-align: middle;
+      display: inline-block;
+      &[data-disabled]{
+        opacity: .3;
+      }
+    }
+  }
+
+  .leftIcon{
+    order: 1;
+    margin-right: 6px;
+  }
+
+  .icon{
+    margin-left: 6px;
+    white-space: nowrap;
+  }
+
+  .icon, .leftIcon{
+    display: flex;
+    color: $grey-1;
+    font-size: 18px;
+    & [data-text] {
+      font: 400 14px/16px $font-6;
+      color: $grey-5;
+    }
+  }
+
+  .w1{
+    background: $white;
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    align-items:center;
+    border-radius: 4px;
+
+    & > *:last-child{
+      order: 3;
+    }
+
+    &.hasLeftIcon{
+      padding-left: 10px;
+      &.medium{
+        padding-left: 5px;
+      }
+      :local(.textInput) {
+        padding-left: 2px;
+      }
+    }
+
+    &.hasRightIcon{
+      padding-right: 10px;
+      &.medium{
+        padding-right: 5px;
+      }
+      :local(.textInput) {
+        padding-right: 2px;
+      }
+    }
+
+    &.hasAdjusters{
+      padding-right: 34px;
+    }
+
+    :local(.overlay){
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      pointer-events: none;
+      border: 1px solid $border-color-tr;
+      border-radius: 4px;
+      transition: .1s;
+    }
+    
+    &.medium{
+      [data-text], :local(.textInput) {
+        font:400 13px/16px $font-6;
+      }
+      :local(.textInput){
+        height: 32px;
+      }
+      & + .adjustHandler{
+        margin-top: -2px;
+        right: 4px;
+      }
+      &, :local(.overlay){
+        border-radius: 4px;
+      }
+    }
+  }
+
+  // note: works for both readonly and disabled
+  .disabled{
+    // pointer-events: none;
+    opacity: .6;
+  }
+
+}
+
+:local(.textInput), :local(.textInputWrapper) .i-fsize{
+  font-size: 14px;
+}
+
+:local(.textInput) {
+  -moz-appearance:textfield;
+  font: {
+    weight: 400;
+    family: $font-6;
+  };
+  line-height: 16px;
+  outline: none;
+  border: none;
+  letter-spacing: 0.01em;
+  color: $dark-1;
+  width: 100%;
+  display: block;
+  padding: 0 10px;
+  height: 36px;
+  flex-grow: 1;
+  order: 2;
+  border-radius: 4px;
+  &.nopointer + i {
+    pointer-events: none;
+  }
+  &::placeholder {
+    color: $grey-1;
+  }
+  &:local(.textArea){
+    width: 100%;
+    min-height: 100px;
+    resize: vertical;
+    display: block;
+    padding: 10px;
+    textarea{
+      border-radius: 4px;
+    }
+  }
+  &.hasError ~ :local(.overlay){
+    border-color: $accent-red;
+    box-shadow: 0 0 0 1px $accent-red;
+  }
+  &:focus {
+    & ~ :local(.overlay){
+      border-color: $blue-border-selected-step;
+      box-shadow: 0 0 0 1px $blue-border-selected-step;
+    }
+    & ~ .leftIcon, & ~ .icon{
+      i{
+        color: $blue-border-selected-step;
+      }
+    }
+    &.hasError {
+      & ~ .leftIcon, & ~ .icon{
+        i{
+          color: $accent-red;
+        }
+      }
+      & ~ :local(.overlay){
+        border-color: $accent-red;
+        box-shadow: 0 0 0 1px $accent-red;
+      }
+    }
+  }
+  &:hover:not(.hasError):not(:focus){
+    & ~ :local(.overlay){
+      border-color: $grey;
+    }
+  }
+}

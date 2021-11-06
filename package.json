@@ -1,0 +1,14 @@
+{
+  "name": "lf-boilerplate",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Bardouni Naoufal <bardouni.naoufal@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {},
+  "workspaces": [
+    "front",
+    "lightfunnels-front"
+  ]
+}

@@ -16,7 +16,6 @@ import {
 	Card,
 	AddLink,
 	LoadingSpinner,
-	ErrorBoundary,
 	Button,
 	Modal,
 	useRelayErrors,
@@ -26,6 +25,8 @@ import {
 	DeleteModalComponent,
 	FunnelsListPickerApp,
 } from '../../../lightfunnels-front/assets/js/components';
+
+import {ErrorBoundary} from './components'
 
 import {
 	useLocalStore,
@@ -53,6 +54,8 @@ import type {tsCreateMutation} from './__generated__/tsCreateMutation.graphql';
 
 import '../styles/style.scss';
 
+console.log('here');
+
 const history = createBrowserHistory();
 
 render(
@@ -69,9 +72,6 @@ render(
 );
 
 function Redirect(props) {
-	// const q = React.useMemo(() => {
-	// 	return qs.parse(props.location.search, {ignoreQueryPrefix: true});
-	// }, [props.location.search]);
 
 	const code = props.location.search;
 

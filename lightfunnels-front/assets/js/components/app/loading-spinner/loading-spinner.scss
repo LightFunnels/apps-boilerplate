@@ -1,0 +1,19 @@
+:local(.spinner) {
+  width: 32px;
+  &:not(.relative){
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  animation: SpinnerLoading linear 1s infinite;
+}
+
+@keyframes SpinnerLoading {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.testing
+/public/*
+yarn-error.log
+yarn.lock
+package-lock.json
+.vscode
+jspm_packages
+**/.DS_Store

@@ -40,7 +40,8 @@ module.exports = {
     module: 'empty',
   },
 	entry:{
-		'app-js':'./src/ts/index.tsx'
+		'app-js':'./src/ts/index.tsx',
+		'parent-css-app': '../lightfunnels-front/assets/sass/app.scss'
 	},
 	output: {
 		path: outputPath,
@@ -50,12 +51,88 @@ module.exports = {
 	},
 	resolve:{
 		extensions: ['.js', '.ts', '.tsx', '.mjs'],
-		alias: {}
+		alias: {
+			Assets: path.resolve(__dirname, '../lightfunnels-front/assets/assets'),
+			Data: path.resolve(__dirname, '../lightfunnels-front/assets/js/data'),
+		}
 	},
 	devtool: mode === 'development' ? "eval" : 'source-map',
 	module:{
 		rules: [
-			/* to update these */
+			{
+				test: /\.(ts|tsx|jsx|js)$/,
+				exclude: /node_modules/,
+				loader: "babel-loader",
+				options:{
+					"presets": [
+						"@babel/preset-react",
+						"@babel/preset-env",
+						"@babel/preset-typescript"
+					],
+					"plugins": [
+						"relay",
+						"@babel/plugin-proposal-optional-chaining",
+						"@babel/plugin-syntax-dynamic-import",
+						"@babel/plugin-proposal-class-properties",
+						"@babel/plugin-transform-runtime",
+						"@babel/plugin-proposal-export-default-from",
+					]
+				}
+			},
+			{
+				test: /\.(scss|css)$/,
+				use: [MiniCssExtractPlugin.loader]
+					.concat(
+						[
+							{
+								loader: "css-loader",
+								options: {
+									minimize: process.env.NODE_ENV !== 'development',
+						 			importLoaders: 5,
+						 			localIdentName: process.env.NODE_ENV !== 'development' ? '[hash:base64:5]' : '[name]__[local]--[hash:base64:5]',
+						 			alias:{}
+						 		}
+							},
+							{
+								loader: "postcss-loader",
+								options: {
+									parser: 'postcss-scss',
+									plugins: () => {
+										return [
+											autoprefixer({ browsers: 'last 2 versions' }),
+										]
+									}
+								}
+							},
+							{
+								loader: "sass-loader",
+								options:{
+									sassOptions:{
+										includePaths:[path.resolve('../lightfunnels-front/assets/sass')]
+									}
+								}
+							}
+						]
+					)
+			},
+			{
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto'
+      },
+      {
+        test: /(\.txt|\.html)$/,
+        use: 'raw-loader',
+      },
+			{
+				test: /\.(png|jpg|gif|svg|eot|ttf|otf|woff|woff2|ico)$/,
+				use:{
+					loader: 'file-loader',
+					options:{
+						outputPath: 'assets',
+					}
+				}
+			}
 		]
 	},
 	optimization:{
@@ -68,13 +145,28 @@ module.exports = {
 					test(module, [chunks]){
 						return (/\/node_modules/).test(module.resource)
 					}
+				},
+				'builder-vendor':{
+					name:'builder-vendor',
+					chunks:'async',
+					enforce: true,
+					test(module, [chunks]){
+						return (/\/node_modules/).test(module.resource)
+					}
 				}
 			}
 		}
 	},
 	plugins:[
-		// to fix css here
-		new webpack.ProvidePlugin({}),
+		new MiniCssExtractPlugin({
+			filename: 'css/[name].css',
+		}), 
+		new webpack.ProvidePlugin({
+			ACTIONS: ['Data/actions', 'default'],
+			Content: ['Data/content/index.ts', 'Content'],
+			Links: ['Data/content/links.ts', 'Links'],
+			SafeDate: [path.resolve(__dirname, '../lightfunnels-front/assets/js/utils/index.ts'), 'SafeDate'],
+		}),
 		autoprefixer,
 		new webpack.DefinePlugin({
 			'process.env.ApiURL': JSON.stringify(process.env.ApiURL),
@@ -83,6 +175,7 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title:'Lightfunnels',
 			template: 'index.ejs',
+			chunks:['app-js', 'app-css', 'dashboard-vendor', 'parent-css-app'],
 			templateParameters:{
 				production: mode === 'production'
 			}

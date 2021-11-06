@@ -1,0 +1,29 @@
+@import '_variables.scss';
+
+:local(.card) {
+  // width: 100%;
+  background-color: $white;
+  border-radius: 6px;
+  box-shadow: 0px 1px 4px rgba(9, 39, 83, 0.12);
+
+  .card-body {
+  	padding: 10px 18px 20px;
+  }
+  
+  .card-header {
+    padding: 20px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  :local(.cardTitle) {
+    color: $dark-1;
+    font: 500 unquote('20px/1') $font-6;
+    flex-grow: 1;
+  }
+  
+  .body-no-title{
+    padding: 20px 18px;
+  }
+}

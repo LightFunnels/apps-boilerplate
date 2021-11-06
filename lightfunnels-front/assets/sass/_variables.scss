@@ -1,0 +1,186 @@
+$black: #000000;
+$white: #ffffff;
+$white-three: #f5f5f5;
+$another-grey: #3F4A53;
+
+$border-input: 1px solid #e1e5eb;
+
+@mixin fit(){
+	left: 0;	
+	right: 0;	
+	top: 0;	
+	bottom: 0;
+}
+
+@mixin center(){
+	left: 50%;	
+	top: 50%;	
+	position: absolute;
+	transform: translate(-50%, -50%);
+}
+
+@mixin centerIcon(){
+	display: table;
+	&:before{
+		display: table-cell;
+		text-align: center;
+		vertical-align: middle;
+	}
+}
+
+// $font-4: 'RobotoMono';
+$font-5: 'Circular';
+$font-6: 'Proxima';
+$font-7: 'Metropolis';
+$white1: #F1F2F4;
+$accent-blue: #0085FF;
+$blue-2: #0C74BF;
+$blue-3: #0075FF;
+$blue-4: #006CB9;
+$blue-5: #00A3FF;
+$blue-6: #E2F3FF;
+$blue-7: #0062F5;
+$blue-8: #6DBAFF;
+$blue-9: $blue-3;
+$blue--10: #CCE6FF;
+$blue--11: #00B2FF;
+$blue--12: #0084FF;
+$blue--13: #0061F4;
+$light-accent-blue: #7DC5F9;
+$golden: #FFC700;
+$decent-blue: #6CC1FF;
+$blue-border-selected-step: $accent-blue;
+$accent-orange: #ff7a00;
+$accent-red-1: #ffeded;
+$danger-red: #FF5A5A;
+$error-red: #FA6868;
+$error-red-1: #FF7272;
+$error-red-2: #FF5B5B;
+$error-red-3: #F03A3A;
+$error-red-4: #F03A3A;
+$light-danger-red: #FF8484;
+$button-border-radius: 4px;
+$darker-grey-2: #91959A;
+$grey: #C3CBD5;
+$dark: #3F4A52;
+$grey-search-bar: #C4C4C4;
+$grey-1: #93A2B4;
+$grey-2: #D5D9DE;
+$grey-3: #FAFAFA;
+$grey-4: #EAEDF0;
+$grey-5: #647990;
+$grey-6: #999DA0;
+$grey-7: #999DA2;
+$grey-9: #F3F5F8;
+$grey-10: #D9DFE8;
+$grey-11: #E7E7E7;
+$grey-12: #FAFBFC;
+$grey-13: #D3DBE2;
+$grey-14: #A6ACB0;
+$grey-15: $grey-10;
+$grey-16: #B7B7B7;
+$grey-17: #F6F7FB;
+$grey-18: #E2E4E6;
+$grey-19: #F8F8F8;
+$grey-20: #ABB6C4;
+$grey-21: #CACDD1;
+$grey-22: #ECF0F4;
+$grey-23: #F0F0F0;
+$grey-25: hsla(214, 24%, 97%, 1);
+$grey-26: #B1B9C0;
+$grey-27: #191E24;
+$dark-1: $grey-27;
+$grey-24: $grey-27;
+$grey-28: #F8F8F9;
+$grey-29: $grey-25;
+$grey-30: #E3E3E3;
+$grey-33: #596B81;
+$grey-34: #EFF3F6;
+$grey-35: #7B8DA3;
+$grey-8: $grey-35;
+$grey-32: $grey-35;
+$grey-36: #F4F4F4;
+$grey-38: #EBEFF3;
+$grey-39: #E6EAEE;
+$grey-40: #EBEBEB;
+$grey-41: #F5F6F8;
+$grey-42: #FCFCFC;
+$grey-43: #C3CFDA;
+$grey-45: #D6DCE2;
+$grey-46: #F8F9FA;
+$grey-47: $grey-20;
+$grey--42: #EBEDF3;
+$grey--43: #E6EAEF;
+$grey-37: $grey--43;
+$grey--44: #6F747A;
+$grey--45: $grey-10;
+$grey--46: #F6F6F6;
+$grey--47: #FAFAFA;
+$grey--48: #EEEFF3;
+$grey--49: #FBFCFD;
+$grey-31: $grey--43;
+$opacity-grey-2: rgba(180, 185, 190, 0.8);
+$opacity-grey-1: rgba(180, 185, 190, 0.8);
+$opacity-dark: rgba(black, 0.1);
+$height-input: 36px;
+$border-color-tr: #D3DAE4;
+$grey-44: $border-color-tr;
+$grey-45: $border-color-tr;
+$grey-48: #596B80;
+$grey-49: hsla(210, 40%, 96%, 1);
+$grey-50: #F7F8F9;
+$modal-body-grey: $grey-35;
+$grey-51: #4F4F4F;
+$darker-grey: $grey-27;
+
+$accent-red: #ff4949;
+$opacity-accent-red-1: rgba($accent-red, .1);
+
+
+$green-1: #55C160;
+$green-2: #48CB55;
+$green-3: #4FBB87;
+$green-4: #3ABE3C;
+$green-5: #45B17D;
+$green-6: #57C38F;
+$green-7: #06D578;
+$green-8: #51CB90;
+$green--5: #43BD91;
+$green--6: #5EDABC;
+$opacity-blue-0: rgba($blue-9, 0);
+$opacity-blue-1: rgba($blue-9, 0.1);
+$opacity-blue-2: rgba($blue-9, 0.4);
+$opacity-blue-3: rgba($blue-9, 0.15);
+$opacity-blue-4: rgba($blue-9, 0.2);
+$opacity-blue-5: rgba(12, 116, 191, 0.05);
+$opacity-blue-6: rgba($blue-9, 0.25);
+$opacity--blue--7: rgba($blue-9, 0.05);
+// $opacity-orange-1: rgba(255, 122, 0, 0.1);
+$icon-on-overlay-shadow: 0px 0px 2px rgba(32, 32, 35, 0.25);
+
+$opacity-green-1: rgba($green-3, 0.1);
+
+$light-orange: #FFF7F0;
+$orange-1: #FFAB40;
+$orange-2: #FFAB40;
+$opacity-orange-1: rgba($accent-orange, 0.1);
+$opacity--red--1: rgba($accent-red, 0.1);
+$opacity-grey-1: rgba($grey-5, 0.1);
+
+$border-radius-input: 6px;
+$form-group-spacing: 19px;
+$row-spacing: 20px;
+$row-spacing2: 18px;
+$modal-border-radius: 6px;
+
+$drop-down-z-index: 2;
+$header-z-index: 6;
+
+$page-width: 973px;
+$height-navbar: 62px;
+$width-sidebar: 219px;
+
+$box-shadow-1: 0px 0px 15px rgba(32, 32, 35, 0.08);
+$box-shadow-2: 0px 2px 20px rgba(32, 32, 35, 0.13);
+
+$border-table: 1px solid $grey--43;

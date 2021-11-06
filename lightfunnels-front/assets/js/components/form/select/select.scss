@@ -1,0 +1,303 @@
+@import "variables";
+
+:local(.label) {
+  width: 100%;
+  position: relative;
+  min-height: 36px;
+  padding: 0 10px;
+  padding-right: 40px;
+  display: flex;
+  align-items: center;
+  background: $white;
+  border: 1px solid $border-color-tr;
+  border-radius: 4px;
+  transition: .1s;
+  cursor: pointer;
+
+  &.medium{
+    min-height: 32px;
+  }
+  &.disabled{
+    opacity: .6;
+    pointer-events: none;
+  }
+  &.outOfCard{
+    background: transparent;
+    border: 1px solid $grey;
+  }
+  .productImage{
+    margin-left: -5px;
+    max-width: 26px;
+    max-height: 26px;
+    .icon-placeholder-image{
+      font-size: 26px;
+    }
+  }
+  .labelClickable{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    z-index: 1;
+  }
+  * {
+    cursor: pointer;
+  }
+  &:hover, &.active{
+    background-color: $grey-3;
+    .ic.icon-arrow-down{
+      color: $dark-1;
+    }
+  }
+  &:active{
+    border-color: $grey-20;
+  }
+  :local(.textLabel){
+    font: 400 unquote('14px/17px') $font-6;
+    letter-spacing: 0.01em;
+    color: $dark-1;
+    white-space: nowrap;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ic{
+    color: $grey-35;
+    font-size: 20px;
+    position: absolute;
+    right: 10px;
+    transition: .1s ease-out;
+    &.icon-cancel-music{
+      color: $grey-35;
+      z-index: 1;
+      &:hover{
+        color: $grey-24;
+      }
+    }
+  }
+}
+:local(.select){
+  min-width: 0;
+  position: relative;
+}
+:local(.menu) {
+  min-height: 10px;
+  z-index: $drop-down-z-index;
+  box-shadow: $box-shadow-2;
+  border: 1px solid $grey-10;
+  background: $white;
+  border-radius: 6px;
+  width: 100%;
+  cursor: pointer;
+  max-height: #{'min(calc(100vh - 16px), 260px)'};
+  margin: {
+    top: 8px;
+    bottom: 8px;
+  }
+  display: flex;
+  flex-direction: column;
+  &.disabled {
+    opacity: .6;
+  }
+  .loadMore, .loading{
+    padding: 8px 10px;
+    font: 400 13px/16px $font-6;
+    color: $blue-border-selected-step;
+  }
+  .loadingSpinner{
+    margin-right: 6px;
+    &:after {
+      border-right-color: $blue-border-selected-step;
+      border-bottom-color: $blue-border-selected-step;
+    }
+  }
+  .emptySearch{
+    height: 102px;
+    cursor: default;
+    &, .iconContainer{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    text-align: center;
+    flex-direction: column;
+    .iconContainer{
+      height: 46px;
+      width: 46px;
+      border-radius: 46px;
+      background: $grey-29;
+      margin-bottom: 8px;
+      i{
+        font-size: 18px;
+        color: $grey-1;
+      }
+    }
+    .emptySearchText{
+      font: 400 unquote('13px/1.5') $font-6;
+      color: $grey-5;
+    }
+  }
+  .inputContainer{
+    // position: relative;
+    position: sticky;
+    // top: 0;
+    .icon{
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: $grey-1;
+    }
+    .input{
+      border: none;
+      box-shadow: none;
+      outline: none;
+      border-bottom: 1px solid $border-color-tr;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+      width: 100%;
+      padding: 9px 9px 9px 36px;
+      height: 36px;
+      color: $dark-1;
+      font: 400 13px/1 $font-6;
+      &::placeholder{
+        color: $modal-body-grey;
+        font: 400 unquote('13px/16px') $font-6;
+      }
+    }
+  }
+  .selectItemsContainer{
+    padding: 4px 0;
+    overflow: auto;
+    flex-grow: 1;
+    .tile-content{
+      span{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+      }
+    }
+  }
+  .option {
+    color: $dark-1;
+    font: 13px/16px $font-6;
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    // min-height: 36px;
+    height: 34px;
+    &.selectedOption{
+      background: $opacity-blue-1;
+      color: $blue-3;
+    }
+    .thumbnail {
+      width: 26px !important;
+      border-radius: 2px;
+      .icon-placeholder-image{
+        font-size: 24px;
+      }
+    }
+    &:hover {
+      &:not(.selectedOption){
+        background: $grey-19;
+      }
+    }
+    &.checked {
+      background: $opacity-blue-1;
+      color: $blue-7;
+      cursor: pointer;
+      &:hover {
+        background: $opacity-blue-1;
+        color: $blue-7;
+        cursor: pointer;
+      }
+    }
+  }
+  &:not(.grouped) .option:not(:last-child){
+    margin-bottom: 4px;
+  }
+  &.grouped{
+    .group{
+      color: $dark-1;
+      .groupLabel{
+        display: flex;
+        padding: 0 10px;
+        height: 34px;
+        align-items: center;
+        i {
+          font-size: 18px;
+          margin-right: 6px;
+        }
+        .groupLabelText{
+          font: unquote('13px/16px') $font-6;
+        }
+      }
+      .row:hover{
+        background: $grey-19;
+      }
+      .options{
+        .option{
+          padding-left: 33px;
+        }
+      }
+    }
+  }
+}
+
+:local(.nativeSelectContainer){
+  position: relative;
+  display: block;
+  i {
+    position: absolute;
+    right: 10px;
+    font-size: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $grey-35;
+  }
+  .nativeSelect{
+    width: 100%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    background: $white;
+
+    border: 1px solid $border-color-tr;
+    border-radius: 4px;
+    transition: .1s;
+    cursor: pointer;
+    outline: none;
+    color: $dark-1;
+    appearance: none;
+
+    &, option{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font: 400 unquote('14px/17px') $font-6;
+      letter-spacing: 0.01em;
+    }
+    &:active, &:hover{
+      border-color: $grey-20;
+      background: $grey-3;
+    }
+  }
+  &:hover{
+    i {
+      color: $dark-1;
+    }
+  }
+}
+
+// :local(.layer){
+//   background: rgba(0,0,0, .2);
+//   position: fixed;
+//   @include fit;
+// }

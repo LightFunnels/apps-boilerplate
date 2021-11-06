@@ -1,0 +1,8 @@
+@import "variables";
+
+:local(.error) {
+  font: 14px/17px $font-6;
+  letter-spacing: 0.02em;
+  color: $error-red;
+  margin-top: 4px;
+}
