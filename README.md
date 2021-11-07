@@ -23,7 +23,7 @@ To start the backend: u need to run these commands: /backend folder
 1. copy variables from deploy.sh.example into a .env file
 2. request a lightfunnels's app from the team.
 3. create a database 
-4. run "yarn db" in the backend folder to set up the database and see it
+4. run "yarn db" in the backend folder to set up the database and seed it
 5. create a shopify app
 6. fill .env file with the lightfunnels app keys, shopify keys, the database credentials.
 7. AppURL is the backend app url, default to http://localhost:9001/
