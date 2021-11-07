@@ -1,14 +1,21 @@
-- the front/webpack file is not completed and it won't work properly, please fix it with the mising rules.
-- there must be another folder /lightfunnels-front where some files in /front/src imports some components from it. we don't want to keep using it, so 
-you will be building the ui yourself, you can use one of these:
-  - https://preview.tabler.io/
-  - https://evergreen.segment.com/components
-  or if you have a better one you can share it with us. as long as it's a reactJS.
-- you must use relayjs https://relay.dev/
-- you can check the /backend/src/lightfunnels/index.js for a demo to connect to lightfunnels
-- we use aws sam to dpeloy the project, you can check /backend/template.yml for more informations on how each function is attached to the apigateway, but in development 
-- we have a mocking server /backend/dev/index.js to reflect the ApiGateway environment
-- check deploy.sh.example for env variables
+Techs used:
+- graphql
+- dataloader
+- nodejs
+- reactjs
+- https://relay.dev/
+- knexjs
+- aws sam
+- typescript
+- lambda
+- serverless
+
+You must use one of these in front, or suggest something else:
+- https://preview.tabler.io/
+- https://evergreen.segment.com/components
+
+If you are familiar with cloudformation please read the file: /backend/template.yml
+we use aws sam to dpeloy the project, you can check /backend/template.yml for more informations on how each function is attached to the apigateway, but in development.
 
 ---
 
@@ -27,3 +34,11 @@ To start the front: /front folder
 2. set the backend url endpoint, default to http://localhost:9001/
 3. run: yarn watch # to run webpack and serve the front
 4. run: yarn relay --watch # to generate relay artifacts needed for the app
+
+understanding how the app works:
+* the front is simple, there is a webpack file that contains all the configurations, you still need to run relay watch in a diffrent terminal tab to generate the required artifacts for relay to work. ( this is mostly Webpack and Relayjs confiurations, nothing fancy about it)
+* the backend is a bit complex, when u run, yarn start, it runs /backend/dev/indx.js file which runs an expressjs server
+* the server is configured to mock the ApiGateway (https://aws.amazon.com/api-gateway/) environment, each route is attached to a function that is triggered when requesting the endpoint.
+* one of these functions has an authorizer ( https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html ) which is responsible for authorizing the requests comming to that endpoint
+
+
