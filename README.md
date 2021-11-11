@@ -1,3 +1,22 @@
+
+<div align="center">
+    <div align="center"><strong>Lightfunnels App Boilerplate.</strong></div>
+    <div align="center">A kickstarter repository to create Lightfunnels apps faster</div>
+    <br />
+    <div align="center">
+        <a href="https://lightfunnels.com/">Lightfunnels Out</a> 
+        <span> · </span>
+        <a href="https://www.facebook.com/groups/lightfunnels">FB Group</a>
+    </div>
+</div>
+
+<br />
+<div align="center">
+    <sub><a href="https://lightfunnels.com">Lightfunnels</a></sub>
+</div>
+
+<hr />
+
 Techs used:
 - graphql
 - dataloader
