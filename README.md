@@ -31,7 +31,7 @@ You must use one of these in front, or suggest something else:
 - https://evergreen.segment.com/components
 
 If you are familiar with cloudformation please read the file: /backend/template.yml
-we use aws sam to dpeloy the project, you can check /backend/template.yml for more informations on how each function is attached to the apigateway, but in development.
+we use aws sam to dpeloy the project, you can check /backend/template.yml for more informations on how each function is attached to the apigateway.
 
 ---
 
