@@ -52,9 +52,10 @@ To start the backend: u need to run these commands: /backend folder
 To start the front: /front folder
 1. copy .env.example to .env
 2. set the backend url endpoint, default to http://localhost:9001/
-3. run: yarn watch # to run webpack and serve the front
-4. run: yarn relay --watch # to generate relay artifacts needed for the app
-5. the front will be accessible on: http://localhost:9002/
+3. run: yarn install # must be YARN !!! and it won't work with npm.
+4. run: yarn watch # to run webpack and serve the front
+5. run: yarn relay --watch # to generate relay artifacts needed for the app
+6. the front will be accessible on: http://localhost:9002/
 
 understanding how the app works:
 * the front is simple, there is a webpack file that contains all the configurations, you still need to run relay watch in a diffrent terminal tab to generate the required artifacts for relay to work. ( this is mostly Webpack and Relayjs confiurations, nothing fancy about it)
